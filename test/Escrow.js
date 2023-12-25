@@ -6,5 +6,63 @@ const tokens = (n) => {
 }
 
 describe('Escrow', () => {
+    let buyer, seller, inspector, lender;
+    let realEstate;
+    beforeEach(async () => {
+        // Setup accounts
+        [buyer, seller, inspector, lender] = await ethers.getSigners()
 
+        // Deploy
+        const RealEstate = await ethers.getContractFactory('RealEstate')
+        realEstate = await RealEstate.deploy()
+
+        console.log(realEstate.address)
+
+        let transaction = await realEstate.connect(seller).mint("https://ipfs.io/ipfs/QmTudSYeM7mz3PkYEWXWqPjomRPHogcMFSq7XAvsvsgAPS")
+        await transaction.wait()
+
+        const Escrow = await ethers.getContractFactory('Escrow');
+        escrow = await Escrow.deploy(
+            realEstate.address,
+            seller.address,
+            inspector.address,
+            lender.address
+        ) 
+        
+        // Property approval
+        transaction = await realEstate.connect(seller).approve(escrow.address, 1)
+        await transaction.wait()
+
+        // Listing property
+        transaction = await escrow.connect(seller).list(1)
+        await transaction.wait()
+    })
+
+    describe('Deployment', () => {
+        it('Returns NFT address', async () => {
+            const result = await escrow.nftAddress()
+            expect(result).to.be.equal(realEstate.address)
+        })
+    
+        it('Returns lender', async () => { 
+            const result = await escrow.seller()
+            expect(result).to.be.equal(seller.address)
+        })
+    
+        it('Returns inspector', async () => {
+            const result = await escrow.inspector()
+            expect(result).to.be.equal(inspector.address)
+        })
+    
+        it('Returns seller', async () => {
+            const result = await escrow.lender()
+            expect(result).to.be.equal(lender.address)
+        })
+    })
+
+    describe('Listing', () => {
+        it('Ownership update', async () => {
+            expect(await realEstate.ownerOf(1)).to.be.equal(escrow.address)
+        })
+    })
 })
