@@ -20,6 +20,11 @@ contract Escrow {
     mapping(uint256 => uint256) public escrowAmount;
     mapping(uint256 => address) public buyer;
 
+    modifier onlySeller() {
+        require(msg.sender == seller, "Only seller can call this method");
+        _;
+    }
+
     constructor(
         address _nftAddress, 
         address payable _seller, 
@@ -37,7 +42,7 @@ contract Escrow {
         uint256 _purchasePrice, 
         address _buyer, 
         uint256 _escrowAmount
-    ) public {
+    ) public payable onlySeller {
         IERC721(nftAddress).transferFrom(msg.sender, address(this), _nftID);
         
         isListed[_nftID] = true;
