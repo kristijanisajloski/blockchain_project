@@ -30,4 +30,4 @@ In a separate terminal execute:
 ### 7. Start frontend
 `$ npm run start`
 
-### DEVELOPED BY KRISTIJAN ISAJLOSKI
+### © ALL RIGHTS RESERVED BY KRISTIJAN ISAJLOSKI
