@@ -152,4 +152,6 @@ describe('Escrow', () => {
             expect(await realEstate.ownerOf(1)).to.be.equal(buyer.address)
         });
     });
+
+    console.log()
 })
