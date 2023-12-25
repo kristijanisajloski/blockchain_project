@@ -1,3 +1,4 @@
+import React from 'react';
 import { ethers } from 'ethers';
 import { useEffect, useState } from 'react';
 

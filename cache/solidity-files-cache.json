@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/Users/kristijanisajloski/Documents/blockchain-app/contracts/Escrow.sol": {
-      "lastModificationDate": 1703480220436,
-      "contentHash": "216228917f1fbf5875ef510914af5bcc",
+      "lastModificationDate": 1703485649724,
+      "contentHash": "e27f1f3417c2f9bfcd2859c6a3c655b9",
       "sourceName": "contracts/Escrow.sol",
       "solcConfig": {
         "version": "0.8.17",
